@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <meta name="theme-color" content="#242722" />
-    <title>Pilah Sampah | Animasi Interaktif</title>
+    <title>MARPILAH | Mari Pilah Sampah</title>
     <style>
       :root {
         font-family: Arial, Helvetica, sans-serif;
@@ -44,8 +44,42 @@
       main {
         min-height: 100svh;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+      }
+      .hero {
+        padding: clamp(36px, 6vw, 76px) clamp(24px, 8vw, 120px);
+        color: #242722;
+        background: #e8e2d5;
+      }
+      .hero h1 {
+        max-width: 15ch;
+        margin: 0 0 14px;
+        font-size: clamp(32px, 5vw, 64px);
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+      }
+      .hero p {
+        max-width: 60ch;
+        margin: 0;
+        color: #45483f;
+        font-size: clamp(16px, 1.5vw, 19px);
+        line-height: 1.6;
+      }
+      .hero a {
+        display: inline-block;
+        margin-top: 24px;
+        padding: 12px 20px;
+        border-radius: 999px;
+        color: #fffaf1;
+        background: #30362c;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .hero a:focus-visible {
+        outline: 3px solid #8a6424;
+        outline-offset: 3px;
       }
       .scene {
         position: relative;
@@ -329,7 +363,19 @@
   </head>
   <body>
     <main>
-      <div class="scene" aria-label="Pilih tong sampah untuk memulai animasi">
+      <section class="hero" aria-labelledby="hero-title">
+        <h1 id="hero-title">Setiap warna punya tujuan.</h1>
+        <p>
+          Pilah sampah dengan tepat: hijau untuk sampah organik, biru untuk
+          kertas, dan abu-abu untuk sampah residu.
+        </p>
+        <a href="#pilah-scene">Mulai pilah</a>
+      </section>
+      <div
+        class="scene"
+        id="pilah-scene"
+        aria-label="Pilih tong sampah untuk memulai animasi"
+      >
         <img class="ambient" alt="" aria-hidden="true" />
         <div class="stage">
           <img
@@ -426,7 +472,7 @@
         </div>
         <header class="header">
           <span class="brand"
-            >Pilah Sampah<span class="brand-dot">.</span></span
+            >MARPILAH<span class="brand-dot">.</span></span
           >
           <nav class="nav" aria-label="Menu utama">
             <button
