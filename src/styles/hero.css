@@ -1,0 +1,101 @@
+html {
+  scroll-behavior: smooth;
+}
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  padding: 120px clamp(24px, 8vw, 120px) 64px;
+  background: #242722;
+}
+.hero h1 {
+  max-width: 14ch;
+  margin: 0 0 18px;
+  font-size: clamp(38px, 6.4vw, 84px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+.hero h1 em {
+  font-style: normal;
+  color: #f9d476;
+}
+.hero > p {
+  max-width: 52ch;
+  margin: 0;
+  color: #c9c5b8;
+  font-size: clamp(16px, 1.6vw, 20px);
+  line-height: 1.65;
+}
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 26px;
+  margin-top: 34px;
+}
+.hero-cta .start {
+  display: inline-flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 14px 26px;
+  border-radius: 14px;
+  background: #f9d476;
+  color: #242722;
+  font-weight: 700;
+  text-decoration: none;
+}
+.hero-cta .start:hover {
+  background: #ffdf8d;
+}
+.hero-cta .peek {
+  color: #f9d476;
+  font-weight: 700;
+  text-decoration: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.hero-cta a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.hero-cta a:focus-visible {
+  outline: 3px solid #fff7d7;
+  outline-offset: 3px;
+}
+/* Ringkasan fungsi tiap tong; titik warna menandai warna tong yang asli di video */
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 34px;
+  margin-top: clamp(40px, 7vh, 84px);
+  padding-top: 22px;
+  border-top: 1px solid #ffffff1f;
+  font-size: 15px;
+}
+.hero-facts b {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 700;
+}
+.hero-facts i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex: none;
+}
+.hero-facts span {
+  color: #a7a596;
+  font-weight: 400;
+}
+@media (max-width: 700px) {
+  .hero {
+    padding-top: 96px;
+  }
+  .hero-facts {
+    gap: 10px 20px;
+  }
+}
