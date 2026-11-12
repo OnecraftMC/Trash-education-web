@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="100%" height="100%">
+  <defs>
+    <!-- Subtle Warm Ambient Glow -->
+    <radialGradient id="warm-spot" cx="25%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#F4D35E" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#23251E" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Minimal Dot Pattern -->
+    <pattern id="bg-dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1" fill="#F4F4EE" fill-opacity="0.04" />
+    </pattern>
+  </defs>
+
+  <style>
+    
+    .main-card {
+      fill: #23251E;
+      stroke: #383B30;
+      stroke-width: 1.5px;
+    }
+
+    .brand-text {
+      font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 2px;
+      fill: #F4F4EE;
+    }
+
+    .hero-line-1 {
+      font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 800;
+      font-size: 46px;
+      letter-spacing: -1.2px;
+      fill: #F4F4EE;
+    }
+
+    .hero-line-2 {
+      font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 800;
+      font-size: 46px;
+      letter-spacing: -1.2px;
+      fill: #F4D35E;
+    }
+
+    .sub-copy {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      fill: #9EA096;
+    }
+
+    .cta-btn {
+      fill: #F4D35E;
+      animation: ctaPulse 3s ease-in-out infinite alternate;
+    }
+
+    .cta-label {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      fill: #23251E;
+      text-anchor: middle;
+    }
+
+    .link-label {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      fill: #F4D35E;
+    }
+
+    .arrow-shift {
+      display: inline-block;
+      animation: arrowMove 1.8s ease-in-out infinite alternate;
+    }
+
+    .bin-row-bg {
+      fill: #1B1D17;
+      stroke: #34372D;
+      stroke-width: 1.2px;
+    }
+
+    .row-title {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      fill: #F4F4EE;
+    }
+
+    .row-sub {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      fill: #9EA096;
+    }
+
+    .tag-pill-text {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-anchor: middle;
+    }
+
+    /* Sequential Active Card Highlight (4.5s loop) */
+    .row-group-1 {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: highlightRow1 4.5s ease-in-out infinite;
+    }
+    .row-group-2 {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: highlightRow2 4.5s ease-in-out infinite;
+    }
+    .row-group-3 {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: highlightRow3 4.5s ease-in-out infinite;
+    }
+
+    .active-stroke-1 {
+      fill: none;
+      stroke: #22C55E;
+      stroke-width: 1.6px;
+      animation: strokeFade1 4.5s ease-in-out infinite;
+    }
+    .active-stroke-2 {
+      fill: none;
+      stroke: #5B61EB;
+      stroke-width: 1.6px;
+      animation: strokeFade2 4.5s ease-in-out infinite;
+    }
+    .active-stroke-3 {
+      fill: none;
+      stroke: #9CA3AF;
+      stroke-width: 1.6px;
+      animation: strokeFade3 4.5s ease-in-out infinite;
+    }
+
+    @keyframes ctaPulse {
+      0% { filter: drop-shadow(0 0 0px rgba(244, 211, 94, 0)); }
+      100% { filter: drop-shadow(0 0 10px rgba(244, 211, 94, 0.35)); }
+    }
+
+    @keyframes highlightRow1 {
+      0%, 30% { transform: translateX(-6px); }
+      35%, 100% { transform: translateX(0px); }
+    }
+    @keyframes highlightRow2 {
+      0%, 33% { transform: translateX(0px); }
+      38%, 63% { transform: translateX(-6px); }
+      68%, 100% { transform: translateX(0px); }
+    }
+    @keyframes highlightRow3 {
+      0%, 66% { transform: translateX(0px); }
+      71%, 96% { transform: translateX(-6px); }
+      100% { transform: translateX(0px); }
+    }
+
+    @keyframes strokeFade1 {
+      0%, 30% { opacity: 1; }
+      35%, 100% { opacity: 0; }
+    }
+    @keyframes strokeFade2 {
+      0%, 33% { opacity: 0; }
+      38%, 63% { opacity: 1; }
+      68%, 100% { opacity: 0; }
+    }
+    @keyframes strokeFade3 {
+      0%, 66% { opacity: 0; }
+      71%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    
+  </style>
+
+  <!-- Outer Card -->
+  <rect x="10" y="10" width="820" height="230" rx="20" class="main-card" />
+  <rect x="10" y="10" width="820" height="230" rx="20" fill="url(#bg-dots)" />
+  <rect x="10" y="10" width="820" height="230" rx="20" fill="url(#warm-spot)" />
+
+  <!-- LEFT EDITORIAL COLUMN -->
+  <g transform="translate(48, 46)">
+    <text class="brand-text">MARPILAH<tspan fill="#F4D35E">.</tspan></text>
+  </g>
+
+  <g transform="translate(48, 96)">
+    <text class="hero-line-1">Trash</text>
+    <text y="46" class="hero-line-2">Education<tspan fill="#F4F4EE">.</tspan></text>
+    <text y="72" class="sub-copy">Tiga tong, tiga tugas — pilah tanpa ragu.</text>
+  </g>
+
+  <!-- Website-Style CTA Button & Link -->
+  <g transform="translate(48, 186)">
+    <rect x="0" y="0" width="166" height="34" rx="9" class="cta-btn" />
+    <text x="83" y="21" class="cta-label">Coba pilah sekarang</text>
+    <text x="184" y="21" class="link-label">Kenali tongnya →</text>
+  </g>
+
+  <!-- RIGHT INTERACTIVE BIN STACK -->
+  <!-- Row 1: Hijau · Organik -->
+  <g class="row-group-1">
+    <rect x="436" y="34" width="356" height="54" rx="13" class="bin-row-bg" />
+    <rect x="436" y="34" width="356" height="54" rx="13" class="active-stroke-1" />
+    <circle cx="462" cy="61" r="5.5" fill="#22C55E" />
+    <text x="478" y="65" class="row-title">Hijau <tspan class="row-sub">· organik</tspan></text>
+    <rect x="698" y="49" width="76" height="24" rx="12" fill="#1F2E23" />
+    <text x="736" y="64" class="tag-pill-text" fill="#22C55E">ORGANIK</text>
+  </g>
+
+  <!-- Row 2: Biru · Anorganik -->
+  <g class="row-group-2">
+    <rect x="436" y="98" width="356" height="54" rx="13" class="bin-row-bg" />
+    <rect x="436" y="98" width="356" height="54" rx="13" class="active-stroke-2" />
+    <circle cx="462" cy="125" r="5.5" fill="#5B61EB" />
+    <text x="478" y="129" class="row-title">Biru <tspan class="row-sub">· anorganik</tspan></text>
+    <rect x="688" y="113" width="86" height="24" rx="12" fill="#22243A" />
+    <text x="731" y="128" class="tag-pill-text" fill="#818CF8">ANORGANIK</text>
+  </g>
+
+  <!-- Row 3: Abu-abu · Residu -->
+  <g class="row-group-3">
+    <rect x="436" y="162" width="356" height="54" rx="13" class="bin-row-bg" />
+    <rect x="436" y="162" width="356" height="54" rx="13" class="active-stroke-3" />
+    <circle cx="462" cy="189" r="5.5" fill="#9CA3AF" />
+    <text x="478" y="193" class="row-title">Abu-abu <tspan class="row-sub">· residu</tspan></text>
+    <rect x="704" y="177" width="70" height="24" rx="12" fill="#2B2D2A" />
+    <text x="739" y="192" class="tag-pill-text" fill="#D1D5DB">RESIDU</text>
+  </g>
+</svg>
