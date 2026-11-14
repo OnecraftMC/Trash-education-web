@@ -1,3 +1,8 @@
 .superpowers/
 docs/
 node_modules/
+.venv/
+embedding.json
+testing.py
+ai.py
+.venv-1/

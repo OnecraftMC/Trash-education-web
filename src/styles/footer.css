@@ -2,7 +2,7 @@
 .try {
   padding: clamp(64px, 10vh, 110px) clamp(24px, 8vw, 120px)
     clamp(40px, 6vh, 64px);
-  background: #242722;
+  background: var(--color-bg);
 }
 .try h2 {
   margin: 0 0 12px;
@@ -12,14 +12,14 @@
 .try p {
   max-width: 60ch;
   margin: 0;
-  color: #c9c5b8;
+  color: var(--color-text-muted);
   font-size: clamp(15px, 1.4vw, 18px);
   line-height: 1.6;
 }
 .try kbd {
   padding: 2px 8px;
-  border: 1px solid #ffffff33;
-  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
   font-family: inherit;
   font-size: 0.9em;
 }
@@ -30,8 +30,8 @@
   gap: 8px 24px;
   justify-content: space-between;
   padding: 28px clamp(24px, 8vw, 120px) 40px;
-  border-top: 1px solid #ffffff14;
-  background: #242722;
-  color: #a7a596;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-dim);
   font-size: 14px;
 }

@@ -4,7 +4,7 @@
   height: 100svh;
   isolation: isolate;
   overflow: hidden;
-  background: #242722;
+  background: var(--color-bg);
 }
 .stage {
   position: absolute;
@@ -64,7 +64,7 @@
 }
 .hotspot:hover,
 .hotspot:focus-visible {
-  border-color: #fff7d7;
+  border-color: var(--color-border-focus-outline);
   background: #ffffff0d;
 }
 .hotspot:disabled {
@@ -78,8 +78,9 @@
   left: 8%;
   right: 8%;
   padding: 12px 18px;
-  border-radius: 10px;
-  background: #242722f5;
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  opacity: 0.95;
   text-align: center;
   font-size: 13px;
 }
@@ -93,12 +94,7 @@
     gap: 22px;
     padding: calc(env(safe-area-inset-top, 0px) + 92px) 14px
       calc(env(safe-area-inset-bottom, 0px) + 28px);
-    background: radial-gradient(
-      120% 60% at 50% 0%,
-      #4b2c23 0%,
-      #2c1d19 55%,
-      #211c1a 100%
-    );
+    background: var(--color-bg);
   }
   .ambient {
     display: block;
@@ -118,9 +114,9 @@
     flex: none;
     width: 100%;
     aspect-ratio: 1.45/1;
-    border-radius: 28px;
-    border: 1px solid #ffffff2e;
-    box-shadow: 0 20px 50px #0009;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
   }
   .picker {
     display: block;
@@ -131,7 +127,8 @@
     margin: 0 0 12px;
     text-align: center;
     font-size: 15px;
-    color: #fffaf1b8;
+    color: var(--color-text);
+    opacity: 0.7;
   }
   .chips {
     display: flex;
@@ -145,8 +142,8 @@
     gap: 8px;
     min-height: 52px;
     padding: 10px 6px;
-    border: 1px solid #ffffff38;
-    border-radius: 18px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
     background: #ffffff14;
     font-size: 15px;
   }
@@ -163,4 +160,20 @@
   #status {
     bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
   }
+}
+/* Chip dot — warna bin sebagai indikator state */
+.chip-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: none;
+}
+.chip-dot-green {
+  background: var(--color-bin-green);
+}
+.chip-dot-blue {
+  background: var(--color-bin-blue);
+}
+.chip-dot-gray {
+  background: var(--color-bin-gray);
 }

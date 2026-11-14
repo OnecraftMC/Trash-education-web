@@ -2,7 +2,7 @@
 .pin-flow {
   position: relative;
   height: 330svh;
-  background: #e8e2d5;
+  background: var(--color-surface-edu);
 }
 .pin-stage {
   position: sticky;
@@ -13,7 +13,7 @@
   padding: clamp(84px, 12vh, 120px) clamp(24px, 8vw, 120px)
     clamp(28px, 6vh, 56px);
   overflow: hidden;
-  color: #242722;
+  color: var(--color-text-dark);
 }
 .pin-head {
   display: flex;
@@ -28,7 +28,7 @@
   letter-spacing: -0.03em;
 }
 .pin-count {
-  color: #6d6f60;
+  color: var(--color-text-dark-dim);
   font-size: 14px;
   font-variant-numeric: tabular-nums;
 }
@@ -60,9 +60,9 @@
   display: flex;
   align-items: flex-end;
   height: min(52vh, 460px);
-  border-radius: 26px;
+  border-radius: var(--radius-xl);
   padding: 22px;
-  color: #fffaf1;
+  color: var(--color-text);
 }
 .pin-swatch span {
   font-size: clamp(15px, 1.6vw, 19px);
@@ -71,13 +71,13 @@
   text-transform: uppercase;
 }
 .pin-panel[data-step="1"] .pin-swatch {
-  background: #3e9b4f;
+  background: var(--color-bin-green);
 }
 .pin-panel[data-step="2"] .pin-swatch {
-  background: #2f6fe0;
+  background: var(--color-bin-blue);
 }
 .pin-panel[data-step="3"] .pin-swatch {
-  background: #8b949c;
+  background: var(--color-bin-gray);
 }
 .pin-copy h3 {
   margin: 0 0 12px;
@@ -87,7 +87,7 @@
 .pin-copy p {
   max-width: 48ch;
   margin: 0 0 20px;
-  color: #45483f;
+  color: var(--color-text-dark-muted);
   font-size: clamp(16px, 1.5vw, 19px);
   line-height: 1.65;
 }
@@ -101,8 +101,8 @@
 }
 .pin-copy li {
   padding: 9px 16px;
-  border: 1px solid #24272233;
-  border-radius: 12px;
+  border: 1px solid var(--color-bg);
+  border-radius: var(--radius-md);
   font-size: 15px;
 }
 .pin-tip {
@@ -111,7 +111,7 @@
   gap: 10px;
   margin-top: 24px;
   margin-bottom: 0;
-  color: #6d6f60;
+  color: var(--color-text-dark-dim);
   font-size: 14px;
 }
 .pin-progress {
@@ -138,20 +138,21 @@
   transition: background 0.3s ease;
 }
 .pin-dot.on {
-  color: #242722;
+  color: var(--color-text-dark);
 }
 .pin-dot.on i {
-  background: #242722;
+  background: var(--color-text-dark);
 }
 .pin-bar {
   height: 4px;
-  border-radius: 4px;
-  background: #24272222;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  opacity: 0.2;
   overflow: hidden;
 }
 .pin-bar-fill {
   height: 100%;
-  background: #242722;
+  background: var(--color-text-dark);
   transform-origin: left;
   transform: scaleX(0);
 }

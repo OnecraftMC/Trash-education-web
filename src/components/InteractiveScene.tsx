@@ -32,12 +32,6 @@ const CHIP_LABELS: Record<BinColor, string> = {
   gray: "Putar animasi tong abu-abu",
 };
 
-const CHIP_COLORS: Record<BinColor, string> = {
-  blue: "#2f6fe0",
-  green: "#3e9b4f",
-  gray: "#8b949c",
-};
-
 const CHIP_TEXT: Record<BinColor, string> = {
   blue: "Biru",
   green: "Hijau",
@@ -257,7 +251,7 @@ export default function InteractiveScene() {
               aria-label={CHIP_LABELS[color]}
               onClick={(event) => select(color, event.currentTarget)}
             >
-              <i style={{ background: CHIP_COLORS[color] }}></i>
+              <i className={`chip-dot chip-dot-${color}`} aria-hidden="true"></i>
               {CHIP_TEXT[color]}
             </button>
           ))}

@@ -1,7 +1,9 @@
+@import "./design-tokens.css";
+
 :root {
-  font-family: Arial, Helvetica, sans-serif;
-  color: #fffaf1;
-  background: #242722;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-bg);
   color-scheme: dark;
   font-synthesis: none;
 }
