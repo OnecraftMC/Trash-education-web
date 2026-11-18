@@ -37,7 +37,6 @@ Pemisahan dari `terra_zero_peta_bank_sampah(1).html` telah diterapkan dengan str
     │   └── main.css            # Ekstraksi seluruh blok <style> inline
     └── js/
         ├── main.js             # Logika UI, animasi scroll, GSAP/Lenis (interaksi umum)
-        ├── macbook.js          # Modul Three.js/WebGL untuk 3D MacBook showcase
         ├── bin-hint.js         # Posisi hint interaksi pada hero/bin scene
         ├── map-controls.js     # Kontrol/toggle interaksi peta (sisi parent iframe)
         ├── desktop-clock.js    # Jam/tanggal pada tampilan desktop MacBook
@@ -45,7 +44,8 @@ Pemisahan dari `terra_zero_peta_bank_sampah(1).html` telah diterapkan dengan str
 ```
 
 Catatan hasil pemisahan:
-- **Urutan eksekusi dipertahankan**: skrip diekstrak dan dimuat pada posisi yang setara dengan skrip inline asli (termasuk `type="module"` dan `importmap` yang tetap inline sebelum `macbook.js`) untuk menjaga ketergantungan global (`window`, `lenis`, dsb.) dan urutan inisialisasi.
+- **Modul Three.js tetap inline** setelah `importmap` agar dapat berjalan saat `index.html` dibuka langsung maupun lewat HTTP; browser memblokir modul JavaScript lokal eksternal pada `file://`.
+- **Urutan eksekusi skrip lain dipertahankan** untuk menjaga ketergantungan global (`window`, `lenis`, dsb.) dan urutan inisialisasi.
 - **Peta tetap dalam `iframe srcdoc`**: konten peta beserta data lokasi besar (`GEO`) masih tertanam di dalam `srcdoc` pada `index.html` agar perilaku dan komunikasi parent–iframe tetap aman; karena itu `assets/css/map.css`, `assets/js/map.js`, dan `assets/data/geo.js` (opsional pada rencana) **belum** diekstrak.
 - **Cache & ukuran transfer**: pemisahan membantu cache HTTP per aset saat disajikan lewat server (bukan `file://`).
 - **Bukan perbaikan performa otomatis**: lag/berat saat scroll terutama dipengaruhi desain animasi dan beban render runtime (GSAP pin/scrub, WebGL, peta), sehingga optimasi tetap diperlukan terpisah.
