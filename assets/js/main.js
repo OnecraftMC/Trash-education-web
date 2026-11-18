@@ -154,6 +154,7 @@
                 const x = Math.max(0, Math.min(1, (val - min) / (max - min)));
                 return x * x * (3 - 2 * x);
             };
+            const mobileMapFlow = window.matchMedia('(max-width: 767px)');
 
             const laptopTrigger = ScrollTrigger.create({
                 trigger: laptopSection,
@@ -165,7 +166,7 @@
                 onUpdate: (self) => {
                     const p = self.progress;
                     const state = window.macbookScrollState;
-                    if (state.selected && self.direction < 0 && p < 0.95) restoreDesktop();
+                    if (state.selected && !mobileMapFlow.matches && self.direction < 0 && p < 0.95) restoreDesktop();
                     if (state.locked && p < 0.799) {
                         state.locked = false;
                         lenis.start();
@@ -202,6 +203,14 @@
             const state = window.macbookScrollState;
             const desktop = document.getElementById('laptop-desktop');
             const back = document.getElementById('desktop-return');
+            const desktopStatus = document.getElementById('desktop-status');
+            function updateDesktopStatus() {
+                desktopStatus.textContent = mobileMapFlow.matches
+                    ? 'Pilih MAPS untuk menjelajah. Gunakan tombol Kembali ke desktop pada layar peta.'
+                    : 'Pilih MAPS untuk menjelajah. Scroll ke atas untuk kembali.';
+            }
+            updateDesktopStatus();
+            mobileMapFlow.addEventListener('change', updateDesktopStatus);
             function restoreDesktop() {
                 const state = window.macbookScrollState;
                 state.selected = false;
@@ -214,7 +223,7 @@
                 const desktop = document.getElementById('laptop-desktop');
                 desktop.style.visibility = 'visible';
                 desktop.inert = false;
-                document.getElementById('desktop-status').textContent = 'Pilih MAPS untuk menjelajah. Scroll ke atas untuk kembali.';
+                updateDesktopStatus();
             }
             let touchY = null;
             window.addEventListener('touchstart', e => {touchY = e.touches[0]?.clientY ?? null;}, {passive:true});
