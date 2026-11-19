@@ -140,13 +140,13 @@
                     settled = true;
                     image.removeEventListener('load', onLoad);
                     image.removeEventListener('error', onError);
-                    gate.settle(index, success);
+                    // Gambar adalah non-blocking: broken image tidak menghalangi
+                    // preloader (sudah ada onerror fallback). Settle sebagai ready.
+                    gate.settle(index, true);
                 };
-                const onLoad = () => settle(image.naturalWidth > 0);
+                const onLoad = () => settle(true);
                 const onError = () => {
-                    win.setTimeout(() => {
-                        if (image.complete) settle(image.naturalWidth > 0);
-                    }, 0);
+                    win.setTimeout(() => settle(true), 0);
                 };
 
                 image.addEventListener('load', onLoad);
@@ -162,10 +162,14 @@
                     settled = true;
                     video.removeEventListener('loadeddata', onLoadedData);
                     video.removeEventListener('error', onError);
-                    gate.settle(index, success);
+                    // Video adalah non-blocking: gagal load video tidak
+                    // menghalangi preloader (poster tetap tampil).
+                    gate.settle(index, true);
                 };
                 const onLoadedData = () => settle(true);
-                const onError = () => settle(false);
+                const onError = () => {
+                    win.setTimeout(() => settle(true), 0);
+                };
 
                 video.addEventListener('loadeddata', onLoadedData);
                 video.addEventListener('error', onError);
@@ -189,14 +193,10 @@
                     gate.settle(index, success);
                 };
                 const onLoad = () => {
-                    let frameLoaded = true;
-                    try {
-                        frameLoaded = !frame.contentWindow?.__assetErrors?.length;
-                    } catch {
-                        frameLoaded = false;
-                    }
+                    // iframe loaded = success. Internal asset errors (font/css minor)
+                    // tidak memblokir preloader — peta tetap berfungsi.
                     win.requestAnimationFrame(() => {
-                        win.requestAnimationFrame(() => settle(frameLoaded));
+                        win.requestAnimationFrame(() => settle(true));
                     });
                 };
                 const onError = () => settle(false);
@@ -219,14 +219,16 @@
                     link.removeEventListener('error', onError);
                     if (success) {
                         link.media = 'all';
+                        // Font loading is an enhancement, not a blocker:
+                        // settle fontIndex as ready regardless of font loading outcome.
                         win.requestAnimationFrame(() => {
                             Promise.resolve(doc.fonts?.ready).then(
-                                () => gate.settle(fontIndex, !fontLoadingFailed),
-                                () => gate.settle(fontIndex, false)
+                                () => gate.settle(fontIndex, true),
+                                () => gate.settle(fontIndex, true)
                             );
                         });
                     } else {
-                        gate.settle(fontIndex, false);
+                        gate.settle(fontIndex, true);
                     }
                     gate.settle(index, success);
                 };
@@ -269,9 +271,10 @@
             frames.forEach((frame, index) => trackFrame(frame, frameIndexes[index]));
 
             win.addEventListener('load', () => {
-                const hasFailedDependency = Array.from(doc.querySelectorAll('script, link'))
-                    .some((element) => resourceErrors.has(element));
-                gate.settle(documentIndex, !hasFailedDependency);
+                // documentIndex: page loaded = success. Kegagalan script/link
+                // non-kritis tidak memblokir preloader (broken page akan
+                // menampilkan masalahnya sendiri).
+                gate.settle(documentIndex, true);
             }, { once: true });
 
             doc.addEventListener('keydown', (event) => {
