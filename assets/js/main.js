@@ -25,14 +25,17 @@
         });
         gsap.ticker.lagSmoothing(500, 33);
 
-        // 1B. Start scrolling after the asset preloader releases its overlay.
+        // 1B. Start scrolling immediately — jangan blokir scroll menunggu preloader.
+        // Preloader overlay tetap visible secara visual, tapi scroll tidak diblokir.
+        document.body.classList.remove('overflow-hidden');
         function runLinesLoaderReveal() {
-            document.body.classList.remove('overflow-hidden');
             lenis.start();
             ScrollTrigger.refresh();
         }
         if (window.MarpilahPreloader?.ready) runLinesLoaderReveal();
         else window.addEventListener('marpilah:preloader-ready', runLinesLoaderReveal, { once: true });
+        // Fallback: jika preloader tidak fire dalam 3 detik, tetap start scroll
+        setTimeout(runLinesLoaderReveal, 3000);
 
         // 2. Section 2: Koreografi Cipher Digital (Responsif Mobile & Desktop)
         let cipherTimeline = null;

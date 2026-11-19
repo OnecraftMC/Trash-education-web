@@ -176,7 +176,7 @@
 
             function trackFrame(frame, index) {
                 let settled = false;
-                const timeoutMs = 10000;
+                const timeoutMs = 3000;
                 const timeoutId = win.setTimeout(() => {
                     settle(true);
                 }, timeoutMs);
