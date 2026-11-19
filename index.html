@@ -5,28 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MARPILAH — Infrastruktur Sirkular &amp; Krisis Sampah</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Google Fonts: Inter, Plus Jakarta Sans & Cormorant Garamond -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="assets/js/preloader.js"></script>
+    <script>
+        // Inisialisasi state shared sebelum script defer/module dijalankan.
+        // Memastikan macbook.js tidak crash jika main.js gagal load.
+        window.macbookScrollState = window.macbookScrollState || {
+            targetProgress: 0, selected: false, locked: false, navigationTarget: false
+        };
+    </script>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link id="site-fonts" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print">
 
-    <!-- GSAP + ScrollTrigger & Lenis Smooth Scroll -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
-
-        <link rel="stylesheet" href="assets/css/main.css">
+    <script defer src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <noscript><style>#preloader-overlay { display: none !important; }</style></noscript>
 </head>
 <body class="overflow-hidden">
 
     <!-- =====================================================================
          LINES LOADER & FEATHERED BLUR-IN REVEAL
     ====================================================================== -->
-    <div id="preloader-overlay" class="fixed inset-0 z-[9999] bg-black pointer-events-auto select-none overflow-hidden" aria-hidden="true">
-        <div id="lines-loader-grid" class="lines-loader-grid"></div>
+    <div id="preloader-overlay" class="fixed inset-0 z-[9999] bg-black pointer-events-auto select-none overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="preloader-title" tabindex="-1">
+        <div id="lines-loader-grid" class="lines-loader-grid" aria-hidden="true"></div>
+        <div class="preloader-readout">
+            <p id="preloader-title" class="preloader-brand">MARPILAH</p>
+            <p id="preloader-status" aria-live="polite">Menyiapkan semua aset halaman</p>
+            <div id="preloader-progress" role="progressbar" aria-label="Progres pemuatan aset" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0">
+                <span id="preloader-progress-fill"></span>
+            </div>
+            <p id="preloader-count">0 dari 0 aset siap</p>
+            <div id="preloader-actions" hidden>
+                <button id="preloader-retry" type="button">Coba lagi</button>
+                <button id="preloader-continue" type="button">Lanjut tanpa aset yang gagal</button>
+            </div>
+        </div>
     </div>
 
     <!-- Minimalist Floating Header (Adaptif Terang / Gelap + Mobile Drawer Trigger) -->
@@ -319,6 +335,7 @@
 &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, viewport-fit=cover&quot;&gt;
 &lt;meta name=&quot;theme-color&quot; content=&quot;#061836&quot;&gt;
 &lt;title&gt;Peta Indonesia 3D&lt;/title&gt;
+&lt;script&gt;window.__assetErrors=[];addEventListener(&quot;error&quot;,function(e){if(e.target&amp;&amp;(e.target.tagName===&quot;SCRIPT&quot;||e.target.tagName===&quot;LINK&quot;))window.__assetErrors.push(e.target.tagName)},true);&lt;/script&gt;
 &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css&quot;&gt;
 &lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;family=Unbounded:wght@400;600;700&amp;display=swap&quot;&gt;
 &lt;style&gt;
@@ -999,6 +1016,7 @@ let renderEnabled=true,renderRequest=0;
 function proj(x,y,z){V.set(x,y,z).project(cam);return V.z&lt;1?[(V.x*.5+.5)*w,(-V.y*.5+.5)*h]:null}
 function frame(){
   renderRequest=0;
+  if(document.hidden){renderRequest=requestAnimationFrame(frame);return;}
   const k=kk;cur.x+=(goal.x-cur.x)*k;cur.y+=(goal.y-cur.y)*k;cur.z*=Math.pow(goal.z/cur.z,k);cur.t+=(goal.t-cur.t)*k;cur.b+=(goal.b-cur.b)*k;
   const D=(h/2)/(cur.z*Math.tan(cam.fov*Math.PI/360)),st=Math.sin(cur.t),ct=Math.cos(cur.t),sb=Math.sin(cur.b),cb=Math.cos(cur.b),tz=-cur.y;
   cam.near=Math.min(.05,D*.05);cam.aspect=w/h;cam.updateProjectionMatrix();
@@ -1394,7 +1412,7 @@ frame();
     <!-- =====================================================================
          GSAP + SCROLLTRIGGER + LENIS ORCHESTRATION
     ====================================================================== -->
-    <script src="assets/js/main.js"></script>
+    <script defer src="assets/js/main.js"></script>
 
     <!-- =====================================================================
          THREE.JS ES MODULE UNTUK 3D MACBOOK & TUMPUKAN E-WASTE DETAIL (SECTION 3)
@@ -1412,6 +1430,12 @@ frame();
         import * as THREE from "three";
         import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
         import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+        import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
+
+        // Pastikan state shared selalu tersedia (fallback jika main.js gagal load).
+        window.macbookScrollState = window.macbookScrollState || {
+            targetProgress: 0, selected: false, locked: false, navigationTarget: false
+        };
 
         const container = document.getElementById("laptop-canvas");
         if (container) {
@@ -2239,7 +2263,116 @@ frame();
                 ewastePileGroup.add(tube);
             });
 
-            macbookRoot.add(ewastePileGroup);
+            // ===== MERGE E-WASTE INTO SINGLE UNIFIED MODEL =====
+            // Menggabungkan semua objek e-waste menjadi 1 kesatuan model Three.js
+            // untuk mengurangi draw calls dan menghilangkan bagian yang tertutup/tidak terlihat.
+            ewastePileGroup.updateMatrixWorld(true);
+
+            const ewasteGeometries = [];
+            const meshesToRemove = [];
+
+            ewastePileGroup.traverse((child) => {
+                if (child.isMesh && child.geometry) {
+                    // Skip contact shadow plane (tetap terpisah sebagai ground effect)
+                    if (child.material && child.material.transparent && child.material.depthWrite === false) {
+                        return;
+                    }
+                    // Clone geometry dan terapkan world transform
+                    const geo = child.geometry.clone();
+                    child.updateMatrixWorld(true);
+                    geo.applyMatrix4(child.matrixWorld);
+
+                    // Pastikan normal ada (compute jika tidak ada)
+                    if (!geo.attributes.normal) {
+                        geo.computeVertexNormals();
+                    }
+
+                    // Hapus UV jika tidak konsisten (mergeGeometries butuh atribut sama)
+                    // Kita hanya butuh position, normal, color
+                    if (geo.attributes.uv) {
+                        geo.deleteAttribute('uv');
+                    }
+
+                    // Terapkan vertex colors berdasarkan material original
+                    const mat = child.material;
+                    const color = (mat && mat.color) ? mat.color : new THREE.Color(0x888888);
+                    const count = geo.attributes.position.count;
+                    const colors = new Float32Array(count * 3);
+                    for (let i = 0; i < count; i++) {
+                        colors[i * 3] = color.r;
+                        colors[i * 3 + 1] = color.g;
+                        colors[i * 3 + 2] = color.b;
+                    }
+                    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+                    // Hapus bagian yang tertutup/tidak terlihat (bottom faces, y < -0.5)
+                    // Objek e-waste duduk di y ~ -0.3 hingga -0.56, bagian bawah tidak terlihat
+                    const pos = geo.attributes.position;
+                    const idx = geo.index;
+                    if (idx) {
+                        const newIndices = [];
+                        for (let i = 0; i < idx.count; i += 3) {
+                            const a = idx.getX(i), b = idx.getX(i + 1), c = idx.getX(i + 2);
+                            const ya = pos.getY(a), yb = pos.getY(b), yc = pos.getY(c);
+                            // Skip triangles yang sepenuhnya di bawah threshold (tertutup ground/objek lain)
+                            if (ya < -0.52 && yb < -0.52 && yc < -0.52) continue;
+                            newIndices.push(a, b, c);
+                        }
+                        geo.setIndex(newIndices);
+                    }
+
+                    ewasteGeometries.push(geo);
+                    meshesToRemove.push(child);
+                }
+            });
+
+            // Merge semua geometry menjadi satu (sebelum menghapus mesh individual)
+            let merged = null;
+            if (ewasteGeometries.length > 0) {
+                try {
+                    merged = BufferGeometryUtils.mergeGeometries(ewasteGeometries, false);
+                } catch (e) {
+                    console.error('E-waste merge failed:', e);
+                    merged = null;
+                }
+            }
+
+            if (merged) {
+                // Hapus mesh individual dari group (hanya jika merge berhasil)
+                meshesToRemove.forEach((m) => {
+                    if (m.parent) m.parent.remove(m);
+                    if (m.geometry) m.geometry.dispose();
+                    if (m.material && m.material.dispose) m.material.dispose();
+                });
+
+                // Pastikan vertex colors ada
+                if (!merged.attributes.color) {
+                    const c = new Float32Array(merged.attributes.position.count * 3);
+                    for (let i = 0; i < c.length; i += 3) {
+                        c[i] = 0.5; c[i + 1] = 0.5; c[i + 2] = 0.5;
+                    }
+                    merged.setAttribute('color', new THREE.BufferAttribute(c, 3));
+                }
+
+                const unifiedMaterial = new THREE.MeshStandardMaterial({
+                    vertexColors: true,
+                    metalness: 0.35,
+                    roughness: 0.45,
+                    envMapIntensity: 0.6,
+                });
+
+                const unifiedMesh = new THREE.Mesh(merged, unifiedMaterial);
+                unifiedMesh.name = 'ewaste-unified';
+                ewastePileGroup.add(unifiedMesh);
+
+                // Dispose geometries yang sudah di-merge
+                ewasteGeometries.forEach((g) => g.dispose());
+            } else {
+                // Fallback: jika merge gagal, biarkan mesh individual tetap ada
+                console.warn('E-waste merge failed, keeping individual meshes');
+            }
+
+            macbookRoot.add(ewastePileGroup);            macbookRoot.add(ewastePileGroup);
 
             const screenCenterY = hingeY + lidH / 2 + 0.015;
             const screenCenterZ = -baseD / 2 + lidThick + 0.003;
@@ -2309,6 +2442,10 @@ frame();
             function animate() {
                 animationFrameId = 0;
                 if (!renderActive) return;
+                if (document.hidden) {
+                    animationFrameId = requestAnimationFrame(animate);
+                    return;
+                }
                 animationFrameId = requestAnimationFrame(animate);
 
                 const target = window.macbookScrollState ? window.macbookScrollState.targetProgress : 0;

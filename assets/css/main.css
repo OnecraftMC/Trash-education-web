@@ -84,17 +84,34 @@
 
         /* Smooth GPU layers */
         .gpu-layer {
-            will-change: transform, opacity, clip-path;
+            will-change: auto;
             transform: translateZ(0);
         }
 
-        /* Lines Loader */
+        /* Lines Loader: the horizontal strokes echo the site's existing portal motif. */
+        #preloader-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background: #101113;
+            color: #f2f3ef;
+        }
+
+        #preloader-overlay[hidden] { display: none; }
+        #preloader-overlay.is-leaving { opacity: 0; transition: opacity 260ms ease; }
+
         .lines-loader-grid {
             display: grid;
             grid-template-rows: repeat(24, 1fr);
             width: 100%;
             height: 100%;
-            background-color: #000000;
+            position: absolute;
+            inset: 0;
+            background-color: #101113;
+            pointer-events: none;
         }
 
         .lines-loader-cell {
@@ -110,10 +127,95 @@
         .lines-loader-bar {
             width: 100%;
             height: 1px;
-            background-color: #ffffff;
-            transform-origin: 50% 50%;
+            background-color: #cbd4df;
+            transform-origin: 0 50%;
             transform: scaleX(0) scaleY(1);
             will-change: transform;
+            animation: preloader-line-pass 1.7s ease-in-out infinite;
+        }
+
+        @keyframes preloader-line-pass {
+            0%, 100% { opacity: .16; transform: scaleX(.04); }
+            55% { opacity: .76; transform: scaleX(1); }
+        }
+
+        .preloader-readout {
+            position: relative;
+            z-index: 1;
+            width: min(360px, calc(100% - 40px));
+            padding: 22px;
+            border: 1px solid #cbd4df33;
+            background: #101113e8;
+            text-align: center;
+        }
+
+        .preloader-brand {
+            margin: 0 0 22px;
+            color: #e4e9ef;
+            font: 600 12px/1.4 'Plus Jakarta Sans', system-ui, sans-serif;
+            letter-spacing: .18em;
+        }
+
+        #preloader-status {
+            margin: 0 0 14px;
+            font: 500 14px/1.5 'Plus Jakarta Sans', system-ui, sans-serif;
+        }
+
+        #preloader-progress {
+            width: 100%;
+            height: 3px;
+            overflow: hidden;
+            background: #ffffff24;
+        }
+
+        #preloader-progress-fill {
+            display: block;
+            width: 0;
+            height: 100%;
+            background: #cbd4df;
+            transition: width 180ms ease;
+        }
+
+        #preloader-count {
+            margin: 10px 0 0;
+            color: #c4cbd4;
+            font: 12px/1.5 'Inter', system-ui, sans-serif;
+        }
+
+        #preloader-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        #preloader-actions[hidden] { display: none; }
+        #preloader-actions button {
+            min-height: 44px;
+            max-width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #cbd4df70;
+            border-radius: 4px;
+            background: transparent;
+            color: #f2f3ef;
+            font: 500 13px/1.4 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+        }
+
+        #preloader-actions button:hover { background: #ffffff18; }
+        #preloader-actions button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+        @media (max-width: 480px) {
+            .preloader-readout { padding: 20px 16px; }
+            #preloader-actions { flex-direction: column; }
+            #preloader-actions button { width: 100%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .lines-loader-bar { animation: none; opacity: .42; transform: scaleX(.28); }
+            #preloader-progress-fill { transition: none; }
+            #preloader-overlay.is-leaving { transition: none; }
         }
 
         /* Karakter Blur-In Left-to-Right */
@@ -460,6 +562,7 @@
  #laptop-desktop.handheld .desktop-status{top:auto;left:16px;right:16px;bottom:72px;font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){#laptop-desktop .desktop-app,#laptop-desktop .desktop-app svg{transition:none}}
+@media(max-width:767px){#card,#case-dialog::backdrop,#laptop-desktop .desktop-taskbar{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}}
 @media(max-width:767px){
   #tentang .laptop-words{left:16px;right:16px}
   #tentang .laptop-title{max-width:24ch;margin-inline:auto;text-wrap:balance;text-shadow:0 2px 20px #0009}

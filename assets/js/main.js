@@ -6,13 +6,16 @@
         };
 
         // 1. Inisialisasi Lenis Virtual Smooth Scroll
-        const lenis = typeof Lenis !== 'undefined'
+        const isMobile = window.innerWidth < 768;
+        const lenis = (typeof Lenis !== 'undefined' && !isMobile)
             ? new Lenis({
-                duration: 0.85,
+                duration: 0.45,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                smoothWheel: true
+                smoothWheel: true,
+                wheelMultiplier: 1.2,
+                touchMultiplier: 1.5
             })
-            : { stop() {}, start() {}, on() {}, raf() {} };
+            : { stop() {}, start() {}, on() {}, raf() {}, isStopped: false };
 
         lenis.stop();
 
@@ -20,16 +23,16 @@
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
         });
-        gsap.ticker.lagSmoothing(0);
+        gsap.ticker.lagSmoothing(500, 33);
 
-        // 1B. Lines Loader + Feathered Blur-In Reveal
+        // 1B. Start scrolling after the asset preloader releases its overlay.
         function runLinesLoaderReveal() {
-            const overlay = document.getElementById('preloader-overlay');
-            if (overlay) overlay.remove();
             document.body.classList.remove('overflow-hidden');
             lenis.start();
             ScrollTrigger.refresh();
         }
+        if (window.MarpilahPreloader?.ready) runLinesLoaderReveal();
+        else window.addEventListener('marpilah:preloader-ready', runLinesLoaderReveal, { once: true });
 
         // 2. Section 2: Koreografi Cipher Digital (Responsif Mobile & Desktop)
         let cipherTimeline = null;
@@ -104,7 +107,7 @@
                     start: 'top top',
                     end: '+=440%',
                     pin: true,
-                    scrub: 0.45,
+                    scrub: 0.25,
                     anticipatePin: 1
                 }
             });
@@ -161,7 +164,7 @@
                 start: 'top top',
                 end: '+=300%',
                 pin: true,
-                scrub: 0.35,
+                scrub: 0.2,
                 anticipatePin: 1,
                 onUpdate: (self) => {
                     const p = self.progress;
@@ -213,16 +216,23 @@
             mobileMapFlow.addEventListener('change', updateDesktopStatus);
             function restoreDesktop() {
                 const state = window.macbookScrollState;
+                if (!state) return;
                 state.selected = false;
                 state.locked = false;
                 window.__resetBankMap?.();
                 window.__showLaptopDesktop?.();
-                document.getElementById('desktop-return').hidden = true;
+                const back = document.getElementById('desktop-return');
+                if (back) back.hidden = true;
                 const frame = document.getElementById('bank-map-frame');
-                if (frame.style.pointerEvents === 'auto') document.getElementById('bank-map-toggle').click();
+                if (frame && frame.style.pointerEvents === 'auto') {
+                    const toggle = document.getElementById('bank-map-toggle');
+                    if (toggle) toggle.click();
+                }
                 const desktop = document.getElementById('laptop-desktop');
-                desktop.style.visibility = 'visible';
-                desktop.inert = false;
+                if (desktop) {
+                    desktop.style.visibility = 'visible';
+                    desktop.inert = false;
+                }
                 updateDesktopStatus();
             }
             let touchY = null;
@@ -311,7 +321,7 @@
                     start: 'top top',
                     end: '+=440%',
                     pin: true,
-                    scrub: 0.4,
+                    scrub: 0.2,
                     anticipatePin: 1
                 }
             });
@@ -389,7 +399,7 @@
                     start: 'top top',
                     end: '+=380%',
                     pin: true,
-                    scrub: 0.4,
+                    scrub: 0.2,
                     anticipatePin: 1,
                     onUpdate: (self) => {
                         const p = self.progress;
@@ -588,7 +598,7 @@
                         trigger: '#infrastruktur',
                         start: 'bottom bottom',
                         end: 'bottom top',
-                        scrub: 0.4
+                        scrub: 0.2
                     }
                 }
             );
@@ -603,7 +613,7 @@
                         trigger: '#dampak',
                         start: 'bottom bottom',
                         end: 'bottom top',
-                        scrub: 0.4
+                        scrub: 0.2
                     }
                 }
             );
@@ -618,7 +628,7 @@
                         trigger: '#dampak',
                         start: 'bottom bottom',
                         end: 'bottom top',
-                        scrub: 0.4
+                        scrub: 0.2
                     }
                 }
             );
@@ -632,7 +642,7 @@
                         trigger: '#seleksi',
                         start: 'top bottom',
                         end: 'center center',
-                        scrub: 0.4
+                        scrub: 0.2
                     }
                 }
             );
@@ -646,7 +656,7 @@
                         trigger: '#seleksi',
                         start: 'top bottom',
                         end: 'center center',
-                        scrub: 0.4
+                        scrub: 0.2
                     }
                 }
             );
@@ -661,7 +671,12 @@
             initFameStatsAndCases();
             initSectionTransitionsParallax();
             initServiceSlider();
-            runLinesLoaderReveal();
+            if (window.MarpilahPreloader?.markAppReady) {
+                window.MarpilahPreloader.markAppReady();
+            } else {
+                document.getElementById('preloader-overlay')?.remove();
+                runLinesLoaderReveal();
+            }
         });
 
         let resizeTimer;
